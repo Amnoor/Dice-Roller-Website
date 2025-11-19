@@ -1,0 +1,67 @@
+# Docker file
+.dockerignore
+dockerfile
+Dockerfile
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Documentation and development files
+docs/
+
+# Log files
+*.log
+logs/
+
+# Testing files
+test/
+tests/
+*.test.js
+*.spec.js
+coverage/
+
+# Security and configuration files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Package files (if any)
+*.tar.gz
+*.zip
+
+# Analysis and report files
+slim.report.json
+audit.json
+security-report.json
+
+# Backup files
+*.bak
+*.backup
+
+# Development tools
+.rovodev/
