@@ -21,10 +21,7 @@ A tiny, client‑side web app for rolling one or more six‑sided dice. Built wi
 
 ## Quick Start (Local)
 - Option 1: Open `index.html` directly in your browser
-- Option 2: Serve locally without Docker
-  - Python 3: `python -m http.server 8080` then open http://localhost:8080
-  - Node: `npx serve .` then open the printed URL
-- Option 3: Run with Docker
+- Option 2: Run with Docker
   - `docker run -itd -p 8080:80 amnoorbrar/dice-roller`
   - Visit http://localhost:8080
 
