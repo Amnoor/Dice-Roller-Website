@@ -70,8 +70,8 @@ Contributions are welcome. Please follow these steps:
 1. Fork the repository.
 2. Create a feature branch off `develop` (e.g., `feature/your-topic`).
 3. Commit your changes with clear messages.
-4. Add your name in the [Acknowledgements](#acknowledgements)
-4. Open a pull request to the `develop` branch in the original repository.
+4. Add your GitHub Username in the [Acknowledgements](#acknowledgements) in this format `[GitHub Username](GitHub Profile URL)`
+5. Open a pull request to the `develop` branch in the original repository.
 
 ## Acknowledgements
 A big thanks to all contributors who have helped improve this project.
