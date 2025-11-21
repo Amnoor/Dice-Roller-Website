@@ -75,7 +75,7 @@ Contributions are welcome. Please follow these steps:
 ## Acknowledgements
 A big thanks to all contributors who have helped improve this project.
 
-```
+```The format of your username should be like this: [GitHub Username](GitHub Profile URL.).
 
 ```
 
