@@ -1,89 +1,80 @@
 name: Release on tag
 
-  on:
-    push:
-      tags:
-        - 'v*'  # Only run when pushing tags like v1, v1.2.3, v-rc1, etc.
+on:
+  push:
+    tags:
+      - 'v*'
 
-  jobs:
-    build-and-publish:
-      runs-on: ubuntu-latest
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
 
-      env:
-        IMAGE_LOCAL: dice-roller
-        IMAGE_DOCKERHUB: amnoorbrar/dice-roller
-        VERSION: ${{ github.ref_name }}  # The tag name, e.g., v1.2.3
+    env:
+      IMAGE_LOCAL: dice-roller
+      IMAGE_DOCKERHUB: amnoorbrar/dice-roller
+      VERSION: ${{ github.ref_name }}
 
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        - name: Show context
-					run: |
-						echo "Git ref: $GITHUB_REF"
-						echo "Tag (version): $VERSION"
+      - name: Show context
+        run: |
+          echo "Git ref: $GITHUB_REF"
+          echo "Tag (version): $VERSION"
 
-				- name: Verify Docker is available
-					run: docker version
+      - name: Verify Docker is available
+        run: docker version
 
-				- name: Install DockerSlim (slim)
-					run: |
-						curl -sL https://raw.githubusercontent.com/docker-slim/docker-slim/master/scripts/install-dockerslim.sh
-	| sudo -E bash -
-						slim --version || docker-slim --version
+      - name: Install DockerSlim (slim)
+        run: |
+          curl -sL https://raw.githubusercontent.com/docker-slim/docker-slim/master/scripts/install-dockerslim.sh | sudo -E bash -
+          slim --version || docker-slim --version
 
-				# 1) Build original image
-				- name: Build original image
-					run: docker build -t ${IMAGE_LOCAL}:original .
+      - name: Build original image
+        run: docker build -t ${IMAGE_LOCAL}:original .
 
-				# 2) Slim build -> latest
-				- name: Slim original -> latest
-					run: |
-						slim build \
-							--target ${IMAGE_LOCAL}:original \
-							--tag ${IMAGE_LOCAL}:latest \
-							--http-probe-cmd /usr/share/nginx/html/index.html \
-							--http-probe-cmd /usr/share/nginx/html/style/ \
-							--preserve-path /usr/share/nginx/html
+      - name: Slim original -> latest
+        run: |
+          slim build \
+            --target ${IMAGE_LOCAL}:original \
+            --tag ${IMAGE_LOCAL}:latest \
+            --http-probe-cmd /usr/share/nginx/html/index.html \
+            --http-probe-cmd /usr/share/nginx/html/style/ \
+            --preserve-path /usr/share/nginx/html
 
-				# 3) Slim build -> v{tag}
-				- name: Slim original -> version tag
-					run: |
-						slim build \
-							--target ${IMAGE_LOCAL}:original \
-							--tag ${IMAGE_LOCAL}:${VERSION} \
-							--http-probe-cmd /usr/share/nginx/html/index.html \
-							--http-probe-cmd /usr/share/nginx/html/style/ \
-							--preserve-path /usr/share/nginx/html
+      - name: Slim original -> version tag
+        run: |
+          slim build \
+            --target ${IMAGE_LOCAL}:original \
+            --tag ${IMAGE_LOCAL}:${VERSION} \
+            --http-probe-cmd /usr/share/nginx/html/index.html \
+            --http-probe-cmd /usr/share/nginx/html/style/ \
+            --preserve-path /usr/share/nginx/html
 
-				# Login before steps 4-7
-				- name: Docker Hub login
-					env:
-						DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-						DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-					run: |
-						if [ -z "$DOCKERHUB_USERNAME" ] || [ -z "$DOCKERHUB_TOKEN" ]; then
-							echo "Docker Hub credentials not set. Please define DOCKERHUB_USERNAME and DOCKERHUB_TOKEN secrets."
-							exit 1
-						fi
-						echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - name: Docker Hub login
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          if [ -z "$DOCKERHUB_USERNAME" ] || [ -z "$DOCKERHUB_TOKEN" ]; then
+            echo "Docker Hub credentials not set. Please define DOCKERHUB_USERNAME and DOCKERHUB_TOKEN secrets."
+            exit 1
+          fi
+          echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
-				# 4) Tag versioned image to Docker Hub namespace
-				- name: Tag versioned image for Docker Hub
-					run: docker tag ${IMAGE_LOCAL}:${VERSION} ${IMAGE_DOCKERHUB}:${VERSION}
+      - name: Tag versioned image for Docker Hub
+        run: docker tag ${IMAGE_LOCAL}:${VERSION} ${IMAGE_DOCKERHUB}:${VERSION}
 
-				# 5) Push versioned image
-				- name: Push versioned image
-					run: docker push ${IMAGE_DOCKERHUB}:${VERSION}
+      - name: Push versioned image
+        run: docker push ${IMAGE_DOCKERHUB}:${VERSION}
 
-				# 6) Tag latest image to Docker Hub namespace
-				- name: Tag latest image for Docker Hub
-					run: docker tag ${IMAGE_LOCAL}:latest ${IMAGE_DOCKERHUB}:latest
+      - name: Tag latest image for Docker Hub
+        run: docker tag ${IMAGE_LOCAL}:latest ${IMAGE_DOCKERHUB}:latest
 
-				# 7) Push latest image
-				- name: Push latest image
-					run: docker push ${IMAGE_DOCKERHUB}:latest
+      - name: Push latest image
+        run: docker push ${IMAGE_DOCKERHUB}:latest
 
-				- name: Docker logout
-					if: always()
-					run: docker logout
+      - name: Docker logout
+        if: always()
+        run: docker logout
