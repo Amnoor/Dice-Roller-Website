@@ -1,0 +1,57 @@
+/* Styles for the main form container - centers all form elements */
+#roll{
+    text-align: center;
+}
+
+/* Styles for the main title heading - makes it extra large */
+#header{
+    font-size: xxx-large;
+}
+
+/* Styles for the instruction label - makes it bold and large for visibility */
+#numlabel{
+    font-weight: bold;
+    font-size: x-large;
+}
+
+/* Styles for the number input field - centers text and makes it bold and larger */
+#inputnumdice{
+    font-weight: bold;
+    font-size: larger;
+    text-align: center;
+}
+
+/* Styles for the roll dice button - red background with rounded corners */
+#submitrollback{
+    margin-left: 5px;           /* Small left margin for spacing */
+    background-color: hsl(0, 100%, 50%);  /* Bright red background */
+    font-size: x-large;         /* Large font size */
+    border: 0px none;           /* Remove default border */
+    border-radius: 5px;         /* Rounded corners */
+    cursor: pointer;            /* Show pointer cursor on hover */
+    font-weight: bold;          /* Bold text */
+    color: hsl(0, 0%, 90%);     /* Light gray text color */
+}
+
+/* Hover effect for the roll dice button - creates interactive feedback */
+#submitrollback:hover{
+    margin-left: 0px;           /* Remove left margin on hover */
+    background-color: hsl(0, 100%, 60%);  /* Lighter red on hover */
+    font-size: xx-large;        /* Increase font size on hover */
+}
+
+/* Styles for the dice result text display - centers and bolds the text */
+#resultdice{
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Styles for the dice images container - centers the images */
+#resultimage{
+    text-align: center;
+}
+
+/* Styles for individual dice images - adds spacing around each image */
+.resultimg{
+    margin: 5px;
+}
