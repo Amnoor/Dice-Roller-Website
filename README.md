@@ -70,6 +70,7 @@ Contributions are welcome. Please follow these steps:
 1. Fork the repository.
 2. Create a feature branch off `develop` (e.g., `feature/your-topic`).
 3. Commit your changes with clear messages.
+4. Add your name in the [Acknowledgements](#acknowledgements)
 4. Open a pull request to the `develop` branch in the original repository.
 
 ## Acknowledgements
