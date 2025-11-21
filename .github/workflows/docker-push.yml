@@ -28,7 +28,7 @@ jobs:
 
       - name: Install DockerSlim (slim)
         run: |
-          curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-dockerslim.sh | sudo -E bash -
+          curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
           slim --version || docker-slim --version
 
       - name: Build original image
